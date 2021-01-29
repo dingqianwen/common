@@ -1,7 +1,6 @@
 package cn.ruleengine.thread;
 
 import cn.ruleengine.collection.CollUtils;
-import com.sun.istack.internal.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +28,6 @@ public class AsyncUtils {
         return AsyncUtils.batch(executorService, lists, batchExecutor);
     }
 
-    @Nullable
     public static <T, OUT> List<OUT> batch(ExecutorService executorService, List<List<T>> lists, BatchExecutor<T, OUT> batchExecutor) {
         List<Future<List<OUT>>> futures = new ArrayList<>();
         for (List<T> list : lists) {

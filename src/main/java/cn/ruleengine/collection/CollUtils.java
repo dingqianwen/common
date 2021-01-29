@@ -1,6 +1,5 @@
 package cn.ruleengine.collection;
 
-import com.sun.istack.internal.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +23,7 @@ public class CollUtils {
      * @param <T>  t
      * @return list
      */
-    public static <T> List<List<T>> subList(@Nullable List<T> list, int aFew) {
+    public static <T> List<List<T>> subList(List<T> list, int aFew) {
         if (aFew <= 0) {
             throw new IndexOutOfBoundsException();
         }
