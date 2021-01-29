@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  * @date 2021/1/29
  * @since 1.0.0
  */
-public class AsyncProcess {
+public class AsyncUtils {
 
 
     public static <T, OUT> List<OUT> batch(ExecutorService executorService, List<T> list, int aFew, BatchExecutor<T, OUT> batchExecutor) {
@@ -26,7 +26,7 @@ public class AsyncProcess {
         if (lists.isEmpty()) {
             return Collections.emptyList();
         }
-        return AsyncProcess.batch(executorService, lists, batchExecutor);
+        return AsyncUtils.batch(executorService, lists, batchExecutor);
     }
 
     @Nullable
