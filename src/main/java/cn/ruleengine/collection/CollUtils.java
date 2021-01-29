@@ -4,6 +4,10 @@ package cn.ruleengine.collection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -37,6 +41,11 @@ public class CollUtils {
             arrayList.add(subList);
         }
         return arrayList;
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 
 }
