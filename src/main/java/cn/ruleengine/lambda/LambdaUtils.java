@@ -7,11 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
-import java.lang.ref.WeakReference;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -22,12 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 1.0.0
  */
 public class LambdaUtils {
-
-    /**
-     * 使用map做一层SerializedLambda缓存
-     */
-    private static final Map<Class<?>, WeakReference<SerializedLambda>> FUNC_CACHE = new ConcurrentHashMap<>();
-
     /**
      * 根据方法引用,获取引用的方法名称
      *
@@ -36,7 +26,7 @@ public class LambdaUtils {
      * @return column
      */
     public static <T, R> String get(SFunction<T, R> func, boolean onlyColumn) {
-        String key = getSerializedLambda(func).getImplMethodName();
+        String key = resolveProcess(func).getImplMethodName();
         if (!onlyColumn) {
             return key;
         }
@@ -52,22 +42,6 @@ public class LambdaUtils {
         return get(func, true);
     }
 
-    /**
-     * @param func 函数接口
-     * @param <T>  t
-     * @return SerializedLambda
-     */
-    public static <T, R> SerializedLambda getSerializedLambda(SFunction<T, R> func) {
-        Class<?> clazz = func.getClass();
-        // 缓存暂时有点问题
-        return Optional.ofNullable(FUNC_CACHE.get(clazz))
-                .map(WeakReference::get)
-                .orElseGet(() -> {
-                    SerializedLambda lambda = resolveProcess(func);
-                    FUNC_CACHE.put(clazz, new WeakReference<>(lambda));
-                    return lambda;
-                });
-    }
 
     /**
      * @param func 函数接口
