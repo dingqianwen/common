@@ -35,7 +35,7 @@ public class LambdaUtils {
      * @param onlyColumn 为true时去get/is,首字母小写
      * @return column
      */
-    public <T, R> String get(SFunction<T, R> func, boolean onlyColumn) {
+    public static <T, R> String get(SFunction<T, R> func, boolean onlyColumn) {
         String key = getSerializedLambda(func).getImplMethodName();
         if (!onlyColumn) {
             return key;
@@ -48,7 +48,7 @@ public class LambdaUtils {
         return key.substring(0, 1).toLowerCase() + key.substring(1);
     }
 
-    public <T, R> String get(SFunction<T, R> func) {
+    public static <T, R> String get(SFunction<T, R> func) {
         return get(func, true);
     }
 
@@ -57,7 +57,7 @@ public class LambdaUtils {
      * @param <T>  t
      * @return SerializedLambda
      */
-    public <T, R> SerializedLambda getSerializedLambda(SFunction<T, R> func) {
+    public static <T, R> SerializedLambda getSerializedLambda(SFunction<T, R> func) {
         Class<?> clazz = func.getClass();
         // 缓存暂时有点问题
         return Optional.ofNullable(FUNC_CACHE.get(clazz))
