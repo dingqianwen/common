@@ -43,6 +43,13 @@ public class CollUtils {
         return arrayList;
     }
 
+    /**
+     * 根据集合对象中指定的字段去重复
+     *
+     * @param keyExtractor keyExtractor
+     * @param <T>          t
+     * @return Predicate
+     */
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
