@@ -1,4 +1,4 @@
-package cn.ruleengine.collection;
+package cn.ruleengine.common.collection;
 
 
 import java.util.ArrayList;

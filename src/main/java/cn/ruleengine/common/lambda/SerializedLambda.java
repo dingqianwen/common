@@ -1,4 +1,4 @@
-package cn.ruleengine.lambda;
+package cn.ruleengine.common.lambda;
 
 import lombok.Data;
 

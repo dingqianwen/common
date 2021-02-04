@@ -1,6 +1,6 @@
-package cn.ruleengine.thread;
+package cn.ruleengine.common.thread;
 
-import cn.ruleengine.collection.CollUtils;
+import cn.ruleengine.common.collection.CollUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

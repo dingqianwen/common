@@ -1,4 +1,4 @@
-package cn.ruleengine;
+package cn.ruleengine.common;
 
 import java.util.function.Supplier;
 

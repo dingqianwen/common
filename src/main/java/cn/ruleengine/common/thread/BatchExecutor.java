@@ -1,4 +1,4 @@
-package cn.ruleengine.thread;
+package cn.ruleengine.common.thread;
 
 /**
  * 〈一句话功能简述〉<br>

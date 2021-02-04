@@ -1,5 +1,6 @@
-package cn.ruleengine.collection;
+package cn.ruleengine.common.collection;
 
+import cn.ruleengine.common.collection.CollUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
