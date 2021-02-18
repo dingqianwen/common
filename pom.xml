@@ -73,19 +73,24 @@
             <version>2.1.2.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>2.1.2.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.25</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
     </dependencies>
 
@@ -136,9 +141,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
-<!--                <configuration>-->
-<!--                    <javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/bin/javadoc</javadocExecutable>-->
-<!--                </configuration>-->
+                <!--                <configuration>-->
+                <!--                    <javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/bin/javadoc</javadocExecutable>-->
+                <!--                </configuration>-->
                 <executions>
                     <execution>
                         <phase>package</phase>
