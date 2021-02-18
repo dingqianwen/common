@@ -15,13 +15,13 @@
 <dependency>
     <groupId>cn.ruleengine</groupId>
     <artifactId>common</artifactId>
-    <version>1.1</version>
+    <version>1.3</version>
 </dependency>
 ```
 
 ## 多线程
 
-### 多线程同步执行：
+### 多线程数据同步执行：
 
 ```java
 public class Test {
@@ -55,7 +55,7 @@ public class Test {
 }
 ```
 
-### 多线程批量执行：
+### 多线程数据批量执行：
 
 ```java
 public class Test {
