@@ -15,7 +15,7 @@
 <dependency>
     <groupId>cn.ruleengine</groupId>
     <artifactId>common</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
 </dependency>
 ```
 
