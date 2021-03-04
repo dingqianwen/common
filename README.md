@@ -23,9 +23,15 @@
 
 ### 多线程数据同步执行：
 
+#### 功能简介
+
+多线程同时执行一批数据，并获取返回结果。
+
+#### 操作案例
+
 ```java
 public class Test {
-    
+
     @Test
     public void mergeTest() {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -51,15 +57,21 @@ public class Test {
         System.out.println(System.currentTimeMillis() - startTime);
         executorService.shutdown();
     }
-    
+
 }
 ```
 
 ### 多线程数据批量执行：
 
+#### 功能简介
+
+批量处理一批数据时使用，例如解析的Excel中数据进行多线程批量校验与导入等。
+
+#### 操作案例
+
 ```java
 public class Test {
-    
+
     @Test
     public void batchTest() {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -83,7 +95,7 @@ public class Test {
         System.out.println(System.currentTimeMillis() - startTime);
         executorService.shutdown();
     }
-    
+
 }
 ```
 
@@ -91,9 +103,15 @@ public class Test {
 
 ### 集合按Key去重
 
+#### 功能简介
+
+集合中，根据对象中指定的属性名进行去除重复。
+
+#### 操作案例
+
 ```java
 public class Test {
-    
+
     @Test
     public void distinctByKeyTest() {
         ArrayList<User> users = new ArrayList<>();
@@ -110,6 +128,68 @@ public class Test {
         private Integer id;
         private String name;
     }
-    
+
 }
 ```
+
+## Lambda
+
+### LambdaUtils
+
+#### 功能简介
+
+主要使用方法引用时,获取方法引用的名称
+
+#### 操作案例
+
+我们编写一个Executor类,想获取这个类中的hello方法名称,具体操作如下
+
+```java
+
+@Data
+public class Executor {
+    private String name;
+
+    public String hello() {
+        return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(LambdaUtils.get(Executor::getName, true));
+        System.out.println(LambdaUtils.get(Executor::hello, false));
+    }
+}
+```
+
+输出结果:
+
+```
+name
+hello
+```
+
+注意,使用上例方法引用时注意被引用的方法需要有返回值
+
+#### 使用案例
+
+例如我们在操作mongodb时,使用spring的MongoTemplate,可能会存在不足之处,例如:
+
+```java
+Query query=new Query(Criteria.where("message").is("查询关键字")
+        .and("type").is("查询NullPointerException"));
+        ExceptionMessageBean one=mongoTemplate.findOne(query,ExceptionMessageBean.class);
+        log.info("find:{}",one);
+```
+
+我们在构建条件时,where("message")不应该把此message以字符串的形式出现在这里,后期如果更改字段名称时,不能及时看到此处出现的问题  
+例如下面我对Criteria经行了优化,可能会使代码更好些!
+
+```java
+Query query=new Query(CriteriaPlus.where(ExceptionMessageBean::getMessage).is("查询关键字")
+        .and(ExceptionMessageBean::getType).is("查询NullPointerException"));
+        ExceptionMessageBean one=mongoTemplate.findOne(query,ExceptionMessageBean.class);
+        log.info("find:{}",one);
+```
+
+当前还有其他功能,需要自己去挖掘
+
