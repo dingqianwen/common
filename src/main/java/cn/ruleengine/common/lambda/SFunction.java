@@ -12,9 +12,13 @@ import java.io.Serializable;
  */
 @FunctionalInterface
 public interface SFunction<T, R> extends Serializable {
+
     /**
+     * apply
+     *
      * @param t t
      * @return R
      */
     R apply(T t);
+
 }

@@ -1,17 +1,9 @@
 package cn.ruleengine.common.lambda;
 
 
-import org.springframework.util.SerializationUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import java.lang.ref.WeakReference;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import java.lang.invoke.SerializedLambda;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -22,13 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 1.0.0
  */
 public class LambdaUtils {
-
-    /**
-     * 使用map做一层SerializedLambda缓存
-     * <p>
-     * 注意：只有循环时有效
-     */
-    private static final Map<Class<?>, WeakReference<SerializedLambda>> FUNC_CACHE = new ConcurrentHashMap<>();
 
     /**
      * 根据方法引用,获取引用的方法名称
@@ -62,39 +47,18 @@ public class LambdaUtils {
      * @return SerializedLambda
      */
     public static <T, R> SerializedLambda getSerializedLambda(SFunction<T, R> func) {
-        Class<?> clazz = func.getClass();
-        // 缓存暂时有点问题
-        return Optional.ofNullable(FUNC_CACHE.get(clazz))
-                .map(WeakReference::get)
-                .orElseGet(() -> {
-                    SerializedLambda lambda = resolveProcess(func);
-                    FUNC_CACHE.put(clazz, new WeakReference<>(lambda));
-                    return lambda;
-                });
+        try {
+            Method method = func.getClass().getDeclaredMethod("writeReplace");
+            method.setAccessible(true);
+            return (SerializedLambda) method.invoke(func);
+        } catch (NoSuchMethodException e) {
+            // mybatis plus copy
+            String message = "Cannot find method writeReplace, please make sure that the lambda composite class is currently passed in";
+            throw new RuntimeException(message);
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    /**
-     * Serialized
-     *
-     * @param func 函数接口
-     * @return 返回解析后的 SerializedLambda
-     */
-    private static <T> SerializedLambda resolveProcess(SFunction<T, ?> func) {
-        if (!func.getClass().isSynthetic()) {
-            throw new RuntimeException("not lambda synthetic");
-        }
-        byte[] serialize = SerializationUtils.serialize(func);
-        try (ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(Objects.requireNonNull(serialize))) {
-            @Override
-            protected Class<?> resolveClass(ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException {
-                Class<?> clazz = super.resolveClass(objectStreamClass);
-                return clazz == java.lang.invoke.SerializedLambda.class ? SerializedLambda.class : clazz;
-            }
-        }) {
-            return (SerializedLambda) objIn.readObject();
-        } catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException("This is impossible to happen", e);
-        }
-    }
 
 }
